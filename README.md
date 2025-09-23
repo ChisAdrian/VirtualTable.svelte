@@ -12,7 +12,7 @@
 
   </code>
 
-  <pre>
-    " VirtualTable containerHeight={tableHeight} data={data2D} "
+
+   < " VirtualTable containerHeight={tableHeight} data={data2D} " >
       
-    </pre>
+
