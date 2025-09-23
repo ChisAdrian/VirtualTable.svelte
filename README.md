@@ -9,10 +9,11 @@
     let data2D = $state([[], []]);     
     let tableHeight = $state(220);  
   </script>
+  <!--Svelte -->
    <  VirtualTable containerHeight={tableHeight} data={data2D}  >
   </code>
 
 
-   <  VirtualTable containerHeight={tableHeight} data={data2D}  >
+
       
 
