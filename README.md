@@ -5,10 +5,10 @@
 <p>  Made with AI and  .... patience </p>
 <code>  
   //Usage
-  
-  let data2D = $state([[], []]);     
-  let tableHeight = $state(220);   
+  <script>
+    let data2D = $state([[], []]);     
+    let tableHeight = $state(220);  
+  </script>
   <VirtualTable containerHeight={tableHeight} data={data2D} />
-  
   </code>
 
