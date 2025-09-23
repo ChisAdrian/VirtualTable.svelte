@@ -12,4 +12,7 @@
 
   </code>
 
-  <p><VirtualTable containerHeight={tableHeight} data={data2D} /></p>
+  <pre>
+    <VirtualTable containerHeight={tableHeight} data={data2D} />
+      
+    </pre>
