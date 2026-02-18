@@ -4,3 +4,4 @@ High-performance virtualized table for Svelte 5. 50k+ rows, zero object allocati
 
 → [Full documentation](https://chisadrian.github.io/VirtualTable.svelte/)
 See index.html
+(https://github.com/ChisAdrian/VirtualTable.svelte)
