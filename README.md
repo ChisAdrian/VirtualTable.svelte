@@ -6,6 +6,8 @@ Renders only the rows visible in the viewport, so 500 000 rows feel as fast as 5
 
 ---
 
+Demo : https://chisadrian.github.io/VirtualTable.svelte/
+
 ## Features
 
 - 🚀 **Virtual scrolling** — only visible rows are in the DOM
