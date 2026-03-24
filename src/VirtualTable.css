@@ -1,0 +1,425 @@
+
+    /*
+  ── VirtualTable.css ────────────────────────────────────────────────────────
+
+  Theme tokens use standard Material Design 3 variable names.
+
+  With Beer CSS (or any MD3 design system): tokens are defined on :root by the
+  design system, which takes precedence over .vt-wrap — no configuration needed.
+
+  Without a design system: the fallback values below are used automatically,
+  so the component works standalone with zero dependencies.
+
+  To customise without Beer CSS, set the MD3 tokens on your wrapper:
+    .my-wrapper { --primary: navy; --on-primary: white; }
+*/
+
+    /* ── Theme defaults (active when no design system is present) ── */
+    .vt-wrap {
+        --primary: #13302e;
+        --on-primary: #ffffff;
+        --primary-container: #eaddff;
+        --on-primary-container: #21005d;
+        --secondary-container: #e8def8;
+        --on-secondary-container: #1d192b;
+        --surface: #fffbfe;
+        --on-surface: #1c1b1f;
+        --surface-variant: #e7e0ec;
+        --surface-bright: #f5eefc;
+        --surface-dim: #ddd8e4;
+        --outline: #79747e;
+        --tertiary: #7d5260;
+        --inverse-primary: #d0bcff;
+    }
+
+    /* ── Root ── */
+    .vt-wrap {
+        width: 99.5%;
+        font-size: 1rem;
+        position: relative;
+    }
+
+    /* ── Controls bar ── */
+    .vt-controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.25rem;
+        margin-bottom: 0.25rem;
+        font-size: 0.75rem;
+        width: 100%;
+        background-color: var(--surface-variant);
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.75rem;
+        box-sizing: border-box;
+    }
+
+    .vt-controls-left,
+    .vt-controls-right {
+        display: flex;
+        align-items: center;
+        gap: 0.15rem;
+    }
+
+    /* ── Row-count badge ── */
+    .vt-badge-wrap {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1.5rem;
+    }
+
+    .vt-icon {
+        font-size: 1rem;
+    }
+
+    .vt-badge {
+        position: absolute;
+        bottom: -0.25rem;
+        right: -1rem;
+        min-width: 1rem;
+        height: 1rem;
+        padding: 0 0.2rem;
+        border-radius: 999px;
+        font-size: 0.55rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--secondary-container);
+        color: var(--on-secondary-container);
+        white-space: nowrap;
+    }
+
+    /* ── Buttons ── */
+    .vt-btn {
+        cursor: pointer;
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        font-family: inherit;
+        background: transparent;
+        color: var(--on-surface);
+        transition: background 0.15s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    .vt-btn:hover {
+        background: var(--surface-bright);
+    }
+
+    .vt-btn-apply {
+        background: var(--primary);
+        color: var(--on-primary);
+        font-weight: 600;
+    }
+    .vt-btn-apply:hover {
+        opacity: 0.88;
+        background: var(--primary);
+    }
+
+    .vt-btn-check {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+    }
+
+    .vt-icon-large {
+        font-size: 1.1rem;
+    }
+
+    /* ── Shared grid layout ── */
+    .vt-grid {
+        display: grid;
+        width: max-content;
+        min-width: 100%;
+    }
+
+    /* ── Header ── */
+    .vt-header-scroll {
+        overflow: hidden;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        color: var(--on-primary);
+        background-color: var(--primary);
+    }
+
+    .vt-hcell {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        padding: 0.25rem 0.375rem;
+        font-size: 0.6875rem;
+        font-weight: 600;
+        min-height: 3.2rem;
+        border-right: 1.2px solid rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+        user-select: none;
+        overflow: hidden;
+    }
+    .vt-hcell:last-child {
+        border-right: none;
+    }
+
+    /* Subtle indicator when a filter is active on this column */
+    .vt-hcell-filtered {
+        background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .vt-hcell-check {
+        align-items: center;
+        justify-content: center;
+        gap: 0.15rem;
+    }
+
+    .vt-select-count {
+        font-size: 0.5rem;
+        opacity: 0.8;
+    }
+
+    .vt-hcell-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding-bottom: 0.1rem;
+        min-height: 1.2rem;
+    }
+
+    .vt-hcell-label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* Dim label when column has a system (external) filter */
+    .vt-hcell:has(input:disabled) .vt-hcell-label {
+        opacity: 0.6;
+    }
+
+    .vt-sort {
+        font-size: 0.6rem;
+        margin-left: 0.15rem;
+        flex-shrink: 0;
+    }
+
+    @keyframes vt-spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    .vt-sort-pending {
+        display: inline-block;
+        animation: vt-spin 0.6s linear infinite;
+        opacity: 0.7;
+    }
+
+    /* ── Filter row ── */
+    .vt-filter-row {
+        display: flex;
+        gap: 0.15rem;
+        align-items: center;
+    }
+
+    .vt-filter-input-wrap {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .vt-filter {
+        width: 100%;
+        padding: 0.2rem 1.2rem 0.2rem 0.3rem; /* right pad for × button */
+        border: 0.0625rem solid rgba(255, 255, 255, 0.3);
+        border-radius: 0.2rem;
+        font-size: 0.6rem;
+        font-family: inherit;
+        background: rgba(255, 255, 255, 0.12);
+        color: var(--on-primary);
+        box-sizing: border-box;
+    }
+    .vt-filter::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+    .vt-filter:focus {
+        outline: 0.125rem solid rgba(255, 255, 255, 0.6);
+        outline-offset: -0.0625rem;
+        background: rgba(255, 255, 255, 0.18);
+    }
+
+    /* Per-column clear button */
+    .vt-filter-clear {
+        position: absolute;
+        right: 0.15rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.7);
+        padding: 0 0.15rem;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+    }
+    .vt-filter-clear:hover {
+        color: #fff;
+    }
+
+    .vt-filter-op {
+        flex-shrink: 0;
+        appearance: none;
+        -webkit-appearance: none;
+        background: rgba(255, 255, 255, 0.15);
+        border: 0.0625rem solid rgba(255, 255, 255, 0.3);
+        border-radius: 0.2rem;
+        padding: 0.15rem 0.25rem;
+        font-size: 0.6rem;
+        font-family: inherit;
+        color: var(--on-primary);
+        cursor: pointer;
+    }
+    .vt-filter-op:hover {
+        background: rgba(255, 255, 255, 0.22);
+    }
+    .vt-filter-op:focus {
+        outline: 0.125rem solid rgba(255, 255, 255, 0.6);
+        outline-offset: -0.0625rem;
+    }
+    .vt-filter-op option {
+        color: var(--on-surface);
+        background: var(--surface);
+        font-size: 0.7rem;
+    }
+
+    .vt-filter-op-hidden {
+        display: none;
+    }
+
+    .vt-filter-row input:disabled,
+    .vt-filter-row select:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        border-style: dashed;
+    }
+
+    /* ── Body ── */
+    .vt-body {
+        overflow: auto;
+        font-family: inherit;
+        border-bottom: 2px solid var(--surface-dim);
+        -webkit-overflow-scrolling: touch;
+        will-change: scroll-position;
+        transform: translateZ(0);
+    }
+
+    /* ── Rows ── */
+    .vt-row {
+        align-items: stretch;
+        will-change: transform;
+        contain: strict;
+    }
+    .vt-row-border {
+        border-bottom: 1px solid var(--tertiary);
+    }
+    .vt-row-highlight {
+        background-color: var(--inverse-primary);
+        color: var(--on-surface);
+    }
+
+    /* ── Cells ── */
+    .vt-cell {
+        padding: 0.25rem 0.375rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        user-select: none;
+    }
+    .vt-cell-border {
+        border-right: 1px solid var(--tertiary);
+    }
+    .vt-cell-selected {
+        background-color: var(--secondary-container);
+        color: var(--on-secondary-container);
+    }
+    .vt-body:focus-within .vt-cell-selected {
+        background-color: var(--secondary-container);
+        color: var(--on-secondary-container);
+    }
+    .vt-cell-check {
+        justify-content: center;
+    }
+
+    /* ── Inline edit input ── */
+    .vt-cell:has(.vt-cell-input) {
+        padding: 0;
+    }
+
+    .vt-cell-input {
+        width: 100%;
+        height: 95%;
+        border: 0;
+        background: transparent;
+        font-family: inherit;
+        font-size: 0.75rem;
+        color: var(--on-surface);
+        margin: 0;
+        outline: none;
+        padding: 0 0 0 0.325rem;
+    }
+    .vt-cell-input:focus {
+        background: var(--primary-container);
+        color: var(--on-primary-container);
+        border-radius: 3px;
+    }
+    .vt-cell-input:disabled {
+        background-color: var(--surface-variant);
+        color: var(--outline);
+        cursor: not-allowed;
+        opacity: 0.7;
+        border-style: dashed;
+    }
+    /* Hide number spinners */
+    .vt-cell-input[type="number"]::-webkit-inner-spin-button,
+    .vt-cell-input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+    .vt-cell-input[type="number"] {
+        appearance: textfield;
+    }
+
+    /* ── Empty state ── */
+    .vt-empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 6rem;
+        color: var(--outline);
+        font-size: 0.75rem;
+        font-style: italic;
+    }
+
+    /* ── Resize handle ── */
+    .vt-resize-handle {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+        cursor: col-resize;
+        z-index: 1;
+    }
+    .vt-resize-handle:hover {
+        background: rgba(255, 255, 255, 0.25);
+    }
+
