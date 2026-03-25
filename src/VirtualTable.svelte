@@ -706,6 +706,7 @@
     }
 
     // ── Column resize ─────────────────────────────────────────────────────────
+    let resizeLineRef = $state(null);
 
     function startResize(e, colIdx) {
         e.preventDefault();
@@ -714,17 +715,23 @@
         const startX = e.clientX;
         const startW = colWidths[colIdx];
 
+        // Show the line at the current handle position
+        const wrapLeft = wrapRef.getBoundingClientRect().left;
+        resizeLineRef.style.left = `${e.clientX - wrapLeft}px`;
+        resizeLineRef.style.display = "block";
+
         function onMove(ev) {
             didResize = true;
             const newW = Math.max(40, startW + ev.clientX - startX);
-            // Update CSS var directly for smooth live feedback (no full re-render)
             wrapRef?.style.setProperty(`--col-${colIdx}-w`, `${newW}px`);
+            // Move line with the drag
+            resizeLineRef.style.left = `${ev.clientX - wrapLeft}px`;
         }
 
         function onUp() {
             window.removeEventListener("mousemove", onMove);
             window.removeEventListener("mouseup", onUp);
-            // Commit final width back to state
+            resizeLineRef.style.display = "none"; // hide line
             const raw = wrapRef?.style.getPropertyValue(`--col-${colIdx}-w`);
             const newW = raw ? parseFloat(raw) : startW;
             colWidths = colWidths.with(colIdx, newW);
@@ -755,6 +762,7 @@
 <svelte:window onkeydown={onKeyDown} onmouseup={endSelecting} />
 
 <div class="vt-wrap" bind:this={wrapRef} style={columnVars}>
+    <div class="vt-resize-line" bind:this={resizeLineRef}></div>
     {#if processing}
         <div class="vt-processing" role="status" aria-label="Processing data">
             <span>⟳ Processing…</span>
@@ -762,7 +770,10 @@
     {/if}
 
     <!-- ── Controls ── -->
-    <div class="vt-controls" bind:clientHeight={controlsRowHeight}>
+    <div
+        class="vt-controls gardient-background"
+        bind:clientHeight={controlsRowHeight}
+    >
         <!-- Left: row count + copy -->
         <div class="vt-controls-left">
             <div class="vt-badge-wrap" title="{processedRows.length} rows">
@@ -774,13 +785,18 @@
             <button
                 class="vt-btn"
                 onclick={() => handleCopyAll()}
-                title="Copy as TSV">TSV</button
+                title="Copy table data as TSV (Tab-separated values)"
             >
+                📋Copy
+            </button>
+
             <button
                 class="vt-btn"
                 onclick={() => handleCopyAll("csv")}
-                title="Copy as CSV">CSV</button
+                title="Copy table data as CSV (Comma-separated values)"
             >
+                <span class="vt-icon-large"> 🧾 </span>
+            </button>
         </div>
 
         <!-- Right: filter controls + fit -->
@@ -794,6 +810,14 @@
                     ⏎
                 </button>
             {/if}
+            <button
+                class="vt-btn"
+                onclick={() =>
+                    (filterMode = filterMode === "live" ? "manual" : "live")}
+                title="Toggle filter mode"
+            >
+                ⇄
+            </button>
             <button
                 class="vt-btn"
                 onclick={() => (showFilterOps = !showFilterOps)}
@@ -901,16 +925,31 @@
                                 setFilterOp(ci, e.currentTarget.value)}
                             onclick={(e) => e.stopPropagation()}
                         >
-                            <option value="contains">%_</option>
-                            <option value="starts">|%</option>
-                            <option value="ends">%|</option>
-                            <option value="equals">=</option>
-                            <option value="!=">≠</option>
+                            <option value="contains" title="Contains"
+                                >...</option
+                            >
+                            <option value="startsWith" title="Starts with"
+                                >⇢</option
+                            >
+                            <option value="endsWith" title="Ends with">⇠</option
+                            >
+                            <option value="equals" title="Equals">=</option>
+                            <option value="notEquals" title="Not equals"
+                                >≠</option
+                            >
                             {#if colNumericCache[ci]}
-                                <option value=">">&gt;</option>
-                                <option value="<">&lt;</option>
-                                <option value=">=">&gt;=</option>
-                                <option value="<=">&lt;=</option>
+                                <option class="op-numeric" value=">"
+                                    >&gt;</option
+                                >
+                                <option class="op-numeric" value="<"
+                                    >&lt;</option
+                                >
+                                <option class="op-numeric" value=">="
+                                    >&gt;=</option
+                                >
+                                <option class="op-numeric" value="<="
+                                    >&lt;=</option
+                                >
                             {/if}
                         </select>
 
